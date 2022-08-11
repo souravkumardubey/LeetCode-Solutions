@@ -10,16 +10,18 @@
  * };
  */
 class Solution {
-    
-    vector < int > inOrder;
-    
-    void getInOrder(TreeNode* root) {
+
+    bool checkBST(TreeNode* root , long long mini , long long maxi) {
         
-        if ( root == NULL ) return;
+        if ( !root ) return true;
         
-        getInOrder(root->left);
-        inOrder.push_back(root->val);
-        getInOrder(root->right);
+        if ( root -> val > mini && root -> val < maxi ) {
+            
+            return checkBST(root->left , mini , root->val) && checkBST(root->right, root->val , maxi);
+            
+        }
+        
+        return false;
         
     }
     
@@ -28,15 +30,7 @@ public:
         
         if ( !root ) return true;
         
-        getInOrder(root);
-        
-        for ( int i = 0 ; i < inOrder.size() - 1 ; i++ ) {
-            
-            if ( inOrder[i] >= inOrder[i+1] ) return false;
-        
-        }
-        
-        return true;
+        return checkBST(root , LONG_MIN , LONG_MAX);
         
     }
 };
